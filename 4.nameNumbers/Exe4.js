@@ -1,35 +1,29 @@
 const fs = require('fs');
 
-let names = fs.readFileSync('./name.txt', 'utf8');
-let numbers = fs.readFileSync('./numbers.txt', 'utf8');
+let names = fs.readFileSync('./name.txt', 'utf8').split("\n");
+let numbers = fs.readFileSync('./numbers.txt', 'utf8').split("\n");
 
-function objectCreator(file) {
-  let arr = [];
-  file = file.replace(/\r/g, '').split('\n');
-  for (let i = 0; i < file.length; i++) {
-    if (isString(file[i].split(/-|_/)[1])) {
-      arr.push({
-        id: file[i].split(/-|_/)[0],
-        name: file[i].split(/-|_/)[1],
-      });
-    } else {
-      arr.push({
-        id: file[i].split(/-|_/)[0],
-        phoneNumber: file[i].split(/-|_/)[1],
-      });
-    }
-  }
-  return arr;
-}
 
-function isString(str) {
-  let res = /^[a-zA-Z]+$/.test(str);
-  return res;
-}
+let nameArray = [];
+let numberArray = [];
 
-names = objectCreator(names);
-console.log(names);
-numbers = objectCreator(numbers);
+
+names.forEach((el) => {
+  let obj = {};
+  obj.id = el.split("-")[0];
+  obj.name = el.split("-")[1];
+  nameArray.push(obj);
+});
+
+numbers.forEach((el) => {
+  let obj = {};
+  obj.id = el.split("-")[0];
+  obj.numbers = el.split("-")[1];
+  numberArray.push(obj);
+});
+
+
+
 
 function merger(data1, data2) {
   let arr = [];
@@ -42,34 +36,33 @@ function merger(data1, data2) {
   return arr;
 }
 
-function objectstoArray(arr) {
-  let output = [];
-  arr.forEach(function (item) {
-    let existing = output.filter(function (v, i) {
-      return v.id === item.id;
-    });
-    if (existing.length) {
-      let existingIndex = output.indexOf(existing[0]);
-      output[existingIndex].phoneNumber = output[
-        existingIndex
-      ].phoneNumber.concat(item.phoneNumber);
-    } else {
-      if (typeof item.phoneNumber == 'string')
-        item.phoneNumber = [item.phoneNumber];
-      output.push(item);
-    }
-  });
-  return output;
-}
+let nameNumbers = merger(nameArray, numberArray);
+// function objectstoArray(arr) {
+//   let output = [];
+//   arr.forEach(function (item) {
+//     let existing = output.filter(function (v, i) {
+//       return v.id === item.id;
+//     });
+//     if (existing.length) {
+//       let existingIndex = output.indexOf(existing[0]);
+//       output[existingIndex].numbers = output[existingIndex].numbers.concat(item.numbers);
+//     } else {
+//       if (typeof item.numbers == 'string')
+//         item.numbers = [item.numbers];
+//       output.push(item);
+//     }
+//   });
+//   return output;
+// }
+console.log(nameNumbers);
 
 function mapper() {
-  let info = merger(names, objectstoArray(numbers));
-   info.forEach((item) => {
-    if (item.phoneNumber) {
-      if (item.phoneNumber.length > 1) {
-        console.log(`${item.name}'s Phone numbers are ${item.phoneNumber}`);
-      } else if (item.phoneNumber.length === 1) {
-        console.log(`${item.name} Phone number is ${item.phoneNumber}`);
+  nameNumbers.forEach((item) => {
+    if (item.numbers) {
+      if (item.numbers.length > 1) {
+        console.log(`${item.name}'s Phone numbers are ${item.numbers}`);
+      } else if (item.numbers.length === 1) {
+        console.log(`${item.name} Phone number is ${item.numbers}`);
       }
     } else {
       console.log(`${item.name} hasn't any phone number.`);
