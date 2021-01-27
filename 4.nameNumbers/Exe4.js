@@ -1,4 +1,3 @@
-const { log } = require('console');
 const fs = require('fs');
 
 let names = fs.readFileSync('./name.txt', 'utf8');
@@ -28,6 +27,10 @@ function isString(str) {
   return res;
 }
 
+names = objectCreator(names);
+console.log(names);
+numbers = objectCreator(numbers);
+
 function mergeTwoArray(data1, data2) {
   let arr = [];
   let result = data1.map((item) => {
@@ -39,7 +42,7 @@ function mergeTwoArray(data1, data2) {
   return arr;
 }
 
-function mergeObjectInArray(arr) {
+function objectstoArray(arr) {
   let output = [];
   arr.forEach(function (item) {
     let existing = output.filter(function (v, i) {
@@ -59,27 +62,22 @@ function mergeObjectInArray(arr) {
   return output;
 }
 
-function writeInformationToFile() {
-  let info = mergeTwoArray(
-    objectCreator(names),
-    mergeObjectInArray(objectCreator(numbers))
-  );
+function mapper() {
+  let info = mergeTwoArray(names, objectstoArray(numbers));
+  
 
   info.forEach((item) => {
     if (item.phoneNumber) {
       if (item.phoneNumber.length > 1) {
-        appendToFile(`${item.name}'s Phone numbers are ${item.phoneNumber}`);
+        console.log(`${item.name}'s Phone numbers are ${item.phoneNumber}`);
       } else if (item.phoneNumber.length === 1) {
-        appendToFile(`${item.name} Phone number is ${item.phoneNumber}`);
+        console.log(`${item.name} Phone number is ${item.phoneNumber}`);
       }
     } else {
-      appendToFile(`${item.name} hasn't any phone number.`);
+      console.log(`${item.name} hasn't any phone number.`);
     }
   });
 }
 
-function appendToFile(data) {
-  fs.appendFileSync('result.txt', `\n${data}`);
-}
 
-writeInformationToFile();
+mapper()
