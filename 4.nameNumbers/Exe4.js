@@ -31,7 +31,7 @@ names = objectCreator(names);
 console.log(names);
 numbers = objectCreator(numbers);
 
-function mergeTwoArray(data1, data2) {
+function merger(data1, data2) {
   let arr = [];
   let result = data1.map((item) => {
     let result2 = data2.find((item2) => {
@@ -63,10 +63,8 @@ function objectstoArray(arr) {
 }
 
 function mapper() {
-  let info = mergeTwoArray(names, objectstoArray(numbers));
-  
-
-  info.forEach((item) => {
+  let info = merger(names, objectstoArray(numbers));
+   info.forEach((item) => {
     if (item.phoneNumber) {
       if (item.phoneNumber.length > 1) {
         console.log(`${item.name}'s Phone numbers are ${item.phoneNumber}`);
