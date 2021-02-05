@@ -37,23 +37,7 @@ function merger(data1, data2) {
 }
 
 let nameNumbers = merger(nameArray, numberArray);
-// function objectstoArray(arr) {
-//   let output = [];
-//   arr.forEach(function (item) {
-//     let existing = output.filter(function (v, i) {
-//       return v.id === item.id;
-//     });
-//     if (existing.length) {
-//       let existingIndex = output.indexOf(existing[0]);
-//       output[existingIndex].numbers = output[existingIndex].numbers.concat(item.numbers);
-//     } else {
-//       if (typeof item.numbers == 'string')
-//         item.numbers = [item.numbers];
-//       output.push(item);
-//     }
-//   });
-//   return output;
-// }
+
 console.log(nameNumbers);
 
 function mapper() {
